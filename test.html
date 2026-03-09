@@ -1,0 +1,309 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>TeraPOWERS Field Management</title>
+        <script src="lib/simpleRequire.js"></script>
+        <script src="lib/config.js"></script>
+        <script src="lib/jquery.min.js"></script>
+    </head>
+    <body>
+        <style>
+            html,
+            body,
+            #main {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+            }
+        </style>
+        <div id="main"></div>
+        <script>
+            var graph = {
+                nodes: [
+                    {
+                        id: "0",
+                        name: "Well0",
+                        symbolSize: 20,
+                        x: -266.82776,
+                        y: 299.6904,
+                        value: [-266.82776, 299.6904],
+                        category: 0,
+                    },
+                    {
+                        id: "1",
+                        name: "Well1",
+                        symbolSize: 20,
+                        x: -418.08344,
+                        y: 446.8853,
+                        value: [-418.08344, 446.8853],
+                        category: 0,
+                    },
+                    {
+                        id: "2",
+                        name: "Well2",
+                        symbolSize: 20,
+                        x: -212.76357,
+                        y: 245.29176,
+                        value: [-212.76357],
+                        category: 0,
+                    },
+                    {
+                        id: "3",
+                        name: "Well3",
+                        symbolSize: 20,
+                        x: -242.82404,
+                        y: 235.26283,
+                        value: [-242.82404, 235.26283],
+                        category: 0,
+                    },
+                    {
+                        id: "4",
+                        name: "Well4",
+                        symbolSize: 20,
+                        x: -379.30386,
+                        y: 429.06424,
+                        value: [-379.30386, 429.06424],
+                        category: 0,
+                    },
+                    {
+                        id: "5",
+                        name: "Well5",
+                        symbolSize: 20,
+                        x: -417.26337,
+                        y: 406.03506,
+                        value: [-417.26337, 406.03506],
+                        category: 0,
+                    },
+                    {
+                        id: "6",
+                        name: "Well6",
+                        symbolSize: 20,
+                        x: -332.6012,
+                        y: 485.16974,
+                        value: [-332.6012, 485.16974],
+                        category: 0,
+                    },
+                    {
+                        id: "7",
+                        name: "Well7",
+                        symbolSize: 20,
+                        x: -382.69568,
+                        y: 475.09113,
+                        value: [-382.69568, 475.09113],
+                        category: 0,
+                    },
+                    {
+                        id: "8",
+                        name: "Well8",
+                        symbolSize: 20,
+                        x: -320.384,
+                        y: 387.17325,
+                        value: [-320.384, 387.17325],
+                        category: 0,
+                    },
+                    {
+                        id: "9",
+                        name: "Well9",
+                        symbolSize: 20,
+                        x: -344.39832,
+                        y: 451.16772,
+                        value: [-344.39832, 451.16772],
+                        category: 0,
+                    },
+                    {
+                        id: "10",
+                        name: "Injector10",
+                        symbolSize: 20,
+                        x: -89.34107,
+                        y: 234.56128,
+                        itemStyle: { color: "red" },
+                        value: [-89.34107, 234.56128],
+                        category: 0,
+                    },
+                    {
+                        id: "11",
+                        name: "Group1",
+                        symbolSize: 50,
+                        x: -87.93029,
+                        y: -6.8120565,
+                        value: [-87.93029, -6.8120565],
+                        category: 1,
+                    },
+                    {
+                        id: "12",
+                        name: "Group11",
+                        symbolSize: 35,
+                        x: -158.05168,
+                        y: 201.99768,
+                        value: [-158.05168, 201.99768],
+                        category: 1,
+                    },
+                    {
+                        id: "13",
+                        name: "GroupR",
+                        symbolSize: 50,
+                        x: 0,
+                        y: 450,
+                        value: [0, 450],
+                        category: 1,
+                    },
+                    {
+                        id: "14",
+                        name: "Rig1",
+                        symbolSize: 50,
+                        x: -339.77908,
+                        y: -184.69139,
+                        value: [-339.77908, -184.69139],
+                        category: 2,
+                    },
+                ],
+                links: [
+                    { source: "0", target: "11" },
+                    { source: "1", target: "11" },
+                    { source: "2", target: "11" },
+                    { source: "3", target: "11" },
+                    { source: "4", target: "11" },
+                    { source: "5", target: "11" },
+                    { source: "5", target: "12" },
+                    { source: "6", target: "12" },
+                    { source: "7", target: "12" },
+                    { source: "8", target: "12" },
+                    { source: "9", target: "12" },
+                    { source: "10", target: "12" },
+                    { source: "0", target: "13" },
+                    { source: "1", target: "13" },
+                    { source: "2", target: "13" },
+                    { source: "3", target: "13" },
+                    { source: "4", target: "13" },
+                    { source: "5", target: "13" },
+                    { source: "6", target: "13" },
+                    { source: "7", target: "13" },
+                    { source: "8", target: "13" },
+                    { source: "9", target: "13" },
+                    { source: "10", target: "13" },
+
+                    { source: "12", target: "11" },
+                    { source: "11", target: "14" },
+                ],
+                categories: [
+                    { name: "Well" },
+                    { name: "Group" },
+                    { name: "Rig" },
+                ],
+            };
+            require(["echarts"], function (echarts) {
+                var chartDom = document.getElementById("main");
+                var myChart = echarts.init(chartDom);
+
+                graph.nodes.forEach(function (node) {
+                    node.label = {
+                        show: node.symbolSize > 2,
+                    };
+                });
+                option = {
+                    title: {
+                        text: "Field Management",
+                        top: "bottom",
+                        left: "right",
+                    },
+                    xAxis: { show: true, type: "value", min: -500, max: 50 },
+                    yAxis: { show: true, type: "value", min: -300, max: 600 },
+                    grid: { left: 0, right: 0, top: 50, bottom: 50 },
+                    dataZoom: [
+                        {
+                            type: "inside", // Zoom and pan inside the chart area
+                            xAxisIndex: 0, // Connects to the first xAxis
+                            yAxisIndex: 0, // Connects to the first yAxis
+                            // Optional configurations:
+                            // start: 0,     // Initial start percentage
+                            // end: 100,     // Initial end percentage
+                            // zoomOnMouseWheel: true, // Enable zoom with mouse wheel (default)
+                            // moveOnMouseMove: true   // Enable pan with mouse move (default)
+                        },
+                        {
+                            type: "slider", // A visual slider component
+                            xAxisIndex: 0,
+                            // Optional: You can place the slider at a specific position using 'bottom', 'top', etc.
+                        },
+                        ,
+                        {
+                            type: "slider", // A visual slider component
+                            yAxisIndex: 0,
+                            // Optional: You can place the slider at a specific position using 'bottom', 'top', etc.
+                        },
+                    ],
+                    tooltip: {
+                        formatter(params) {
+                            return (
+                                params.data.name +
+                                ": (" +
+                                params.data.value[0] +
+                                ", " +
+                                params.data.value[1] +
+                                ")"
+                            );
+                        },
+                    },
+                    legend: [
+                        {
+                            // selectedMode: 'single',
+                            data: graph.categories.map(function (a) {
+                                return a.name;
+                            }),
+                        },
+                    ],
+                    animationDuration: 1500,
+                    animationEasingUpdate: "quinticInOut",
+                    series: [
+                        {
+                            name: "field management",
+                            type: "graph",
+                            coordinateSystem: "cartesian2d",
+                            legendHoverLink: false,
+                            layout: "none",
+                            data: graph.nodes,
+                            links: graph.links,
+                            categories: graph.categories,
+                            roam: true,
+                            label: {
+                                position: "right",
+                                formatter: "{b}",
+                            },
+                            lineStyle: {
+                                color: "source",
+                                curveness: 0.3,
+                            },
+                            emphasis: {
+                                focus: "adjacency",
+                                lineStyle: {
+                                    width: 10,
+                                },
+                            },
+                            draggable: true,
+                        },
+                    ],
+                };
+                myChart.setOption(option);
+                //let dragCoords = null;
+                //myChart.on("mousedown", (e) => {
+                //    dragCoords = [
+                //        e.data.id,
+                //        e.event?.offsetX,
+                //        e.event?.offsetY,
+                //    ];
+                //});
+                myChart.on("mouseup", (e) => {
+                    //const { offsetX, offsetY } = e.event;
+                    const dataid = e.data.id;
+                    if (dataid === undefined) return;
+                    const pointInPixel = [e.event.offsetX, e.event.offsetY];
+                    const pointInGrid = myChart.convertFromPixel(
+                        "grid",
+                        pointInPixel,
+                    );
+                    console.log(pointInGrid);
+                });
+            });
+        </script>
+    </body>
+</html>
